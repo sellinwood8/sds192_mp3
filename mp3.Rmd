@@ -1,0 +1,8 @@
+---
+title: "Mini Project 3"
+author: "Sam Ellinwood"
+date: "11/8/2017"
+output: html_document
+---
+
+Mini Project 3 TEST
