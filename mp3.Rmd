@@ -6,3 +6,10 @@ output: html_document
 ---
 
 Mini Project 3 TEST
+```{r}
+library(mdsr)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+db %>%
+  dbGetQuery("SELECT * FROM kind_type;")
+```
