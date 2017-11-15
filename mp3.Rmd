@@ -5,4 +5,26 @@ date: "11/8/2017"
 output: html_document
 ---
 
-Mini Project 3 TEST
+```{r, message = FALSE}
+library(tidyverse)
+library(mdsr)
+library(RMySQL)
+db <- dbConnect_scidb(dbname = "imdb")
+```
+
+```{r}
+sql <- "SELECT distinct ml.movie_id, title, production_year
+FROM imdb.movie_link ml
+JOIN imdb.aka_title t ON ml.movie_id = t.movie_id
+WHERE kind_id  = 1 AND
+(link_type_id = 1 OR 
+link_type_id = 3 OR
+link_type_id = 11 OR
+link_type_id = 13 OR
+link_type_id = 16);"
+
+test <- db %>%
+  dbGetQuery(sql)
+head(test, n = 20)
+```
+
