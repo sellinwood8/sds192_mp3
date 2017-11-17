@@ -13,3 +13,34 @@ db <- dbConnect_scidb(dbname = "imdb")
 db %>%
   dbGetQuery("SELECT * FROM kind_type;")
 ```
+
+```{r}
+#Selecting sequel year 
+
+db %>%
+  dbGetQuery(
+"SELECT movie_link.movie_id AS sequel_id, linked_movie_id AS original_id, 
+	link_type_id, production_year AS sequel_year FROM imdb.movie_link
+JOIN aka_title ON movie_link.movie_id = aka_title.id
+WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11 
+	OR link_type_id = 13 OR link_type_id = 16;")
+```
+
+```{r}
+#Selecting original year
+
+db %>%
+  dbGetQuery("
+SELECT movie_link.linked_movie_id AS sequel_id, linked_movie_id AS original_id, 
+	link_type_id, production_year AS original_year FROM imdb.movie_link
+JOIN aka_title ON movie_link.linked_movie_id = aka_title.movie_id
+WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11 
+	OR link_type_id = 13 OR link_type_id = 16;")
+```
+
+```{r}
+#Joining two quereys to include original year and sequel year 
+
+
+```
+
