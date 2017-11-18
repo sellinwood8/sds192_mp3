@@ -6,47 +6,32 @@ output: html_document
 ---
 
 
-```{r}
+```{r, message = FALSE}
 library(mdsr)
 library(RMySQL)
-sequel_db <- dbConnect_scidb(dbname = "imdb")
-sequel_db %>%
-  dbGetQuery("SELECT * FROM kind_type;")
-
-library(mdsr)
-library(RMySQL)
-original_db <- dbConnect_scidb(dbname = "imdb")
-original_db %>%
+db <- dbConnect_scidb(dbname = "imdb")
+db %>%
   dbGetQuery("SELECT * FROM kind_type;")
 ```
 
 ```{r}
-#Selecting sequel year 
+#Selecting querey 
 
-sequel_db %>%
+db %>%
   dbGetQuery(
-"SELECT movie_link.movie_id AS sequel_id, linked_movie_id AS original_id, 
+"SELECT *
+FROM (SELECT linked_movie_id AS original_id, movie_link.movie_id AS sequel_id,  
 	link_type_id, production_year AS sequel_year FROM imdb.movie_link
 JOIN aka_title ON movie_link.movie_id = aka_title.id
 WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11 
-	OR link_type_id = 13 OR link_type_id = 16;")
-```
-
-```{r}
-#Selecting original year
-
-original_db %>%
-  dbGetQuery("
-SELECT movie_link.linked_movie_id AS sequel_id, linked_movie_id AS original_id, 
+	OR link_type_id = 13 OR link_type_id = 16) as sequel_table, 
+    (SELECT linked_movie_id AS original_id,movie_link.linked_movie_id AS sequel_id,  
 	link_type_id, production_year AS original_year FROM imdb.movie_link
 JOIN aka_title ON movie_link.linked_movie_id = aka_title.movie_id
 WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11 
-	OR link_type_id = 13 OR link_type_id = 16;")
+	OR link_type_id = 13 OR link_type_id = 16) as original_table
+WHERE sequel_table.original_id = original_table.original_id;
+")
 ```
 
-```{r}
-#Joining two quereys to include original year and sequel year 
-Join on sequel_id
-
-```
 
