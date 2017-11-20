@@ -5,7 +5,7 @@ date: "11/8/2017"
 output: html_document
 ---
 
-
+test
 ```{r, message = FALSE}
 library(mdsr)
 library(RMySQL)
@@ -28,8 +28,8 @@ WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11
     (SELECT linked_movie_id AS original_id,movie_link.linked_movie_id AS sequel_id,  
 	link_type_id, production_year AS original_year FROM imdb.movie_link
 JOIN aka_title ON movie_link.linked_movie_id = aka_title.movie_id
-WHERE link_type_id = 1 OR link_type_id = 3 OR link_type_id = 11 
-	OR link_type_id = 13 OR link_type_id = 16) as original_table
+WHERE link_type_id = 2 OR link_type_id = 4 OR link_type_id = 15) 
+	as original_table
 WHERE sequel_table.original_id = original_table.original_id;
 ")
 ```
