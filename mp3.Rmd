@@ -5,7 +5,6 @@ date: "11/8/2017"
 output: html_document
 ---
 
-<<<<<<< HEAD
 ```{r, message = FALSE}
 library(tidyverse)
 library(mdsr)
@@ -16,7 +15,8 @@ db <- dbConnect_scidb(dbname = "imdb")
 ```{r}
 #Create a table of sequels
 sql_tbl <- db %>%
-  dbGetQuery("SELECT DISTINCT movie_link.movie_id AS sequel_id, linked_movie_id AS original_id, link_type_id, production_year AS sql_year, title AS sequel_title  
+  dbGetQuery(
+  "SELECT DISTINCT movie_link.movie_id AS sequel_id, linked_movie_id AS original_id, link_type_id, production_year AS sequel_year, title AS sequel_title  
   FROM imdb.movie_link
   JOIN aka_title ON movie_link.movie_id = aka_title.movie_id
   WHERE movie_link.movie_id > 0
@@ -29,7 +29,7 @@ sql_tbl <- db %>%
 #Create a table of originals (movies linked to sequels)
 orig_tbl <- db %>%
   dbGetQuery(
-    "SELECT movie_id AS original_id, production_year AS orig_year, title AS original_title
+    "SELECT movie_id AS original_id, production_year AS original_year, title AS original_title
   FROM imdb.aka_title
   WHERE production_year IS NOT NULL
     AND movie_id > 0;
@@ -37,6 +37,7 @@ orig_tbl <- db %>%
 ```
 
 ```{r}
+#Create the full table
 full_tbl <- sql_tbl %>%
   left_join(orig_tbl, by = "original_id") %>%
   unique() 
@@ -44,13 +45,13 @@ full_tbl <- sql_tbl %>%
 
 
 ```{r}
+#Create the data graphic
 full_tbl %>%
-  filter(orig_year != "NA" & sql_year > 1950 & sql_year < 2017) %>%
-  group_by(sql_year) %>%
+  filter(sequel_year > 1950 & sequel_year < 2017 & original_year != "NA") %>%
+  group_by(sequel_year) %>%
   summarize("count" = n(),
-            "difference" = mean(sql_year - orig_year)) %>%
-ggplot(aes(x = sql_year, y = count)) +
+            "difference" = mean(sequel_year - original_year)) %>%
+ggplot(aes(x = sequel_year, y = count)) +
   geom_point() +
-  geom_smooth()
+  geom_smooth() 
 ```
-
