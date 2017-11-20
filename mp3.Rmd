@@ -54,4 +54,3 @@ ggplot(aes(x = sql_year, y = count)) +
   geom_smooth()
 ```
 
-
