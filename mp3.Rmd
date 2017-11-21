@@ -55,5 +55,12 @@ full_tbl %>%
 ggplot(aes(x = sequel_year, y = count)) +
   geom_point(aes(color = difference), size = 3) +
   geom_smooth(se = FALSE) +
-  scale_color_viridis(option = "inferno")
+  scale_color_viridis(option = "inferno") +
+  labs(x = "Year",
+       y = "Number of Sequels", 
+       color = "Years between\nsequel and original",
+       title = "Number of Movie Sequels Over Time") +
+  scale_x_continuous(breaks = seq(1950, 2017, 10)) +
+  scale_y_continuous(breaks = seq(1000, 8000, 2000)) +
+  theme(panel.grid = element_blank())
 ```
