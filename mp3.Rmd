@@ -53,7 +53,7 @@ full_tbl %>%
   summarize("count" = n(),
             "difference" = mean(sequel_year - original_year)) %>%
 ggplot(aes(x = sequel_year, y = count)) +
-  geom_point(aes(color = difference)) +
+  geom_point(aes(color = difference), size = 3) +
   geom_smooth(se = FALSE) +
   scale_color_viridis(option = "inferno")
 ```
