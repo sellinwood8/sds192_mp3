@@ -5,6 +5,11 @@ date: "11/8/2017"
 output: html_document
 ---
 
+**Problem Statement**
+
+We want to determine if the movie industry has recently developed a higher propensity for generating sequels, remakes, and reboots. To evaluate this question, we will graph the relationship between time and the total number of these movies in a given year. Additionally, we will also examine how the spacing between a sequel and its original has change over time. 
+
+
 ```{r, message = FALSE}
 library(tidyverse)
 library(mdsr)
@@ -53,14 +58,22 @@ full_tbl %>%
   summarize("count" = n(),
             "difference" = mean(sequel_year - original_year)) %>%
 ggplot(aes(x = sequel_year, y = count)) +
-  geom_point(aes(color = difference), size = 3) +
-  geom_smooth(se = FALSE) +
+  geom_point(aes(color = difference), size = 4) +
+  geom_smooth(size = 2, se = FALSE) +
   scale_color_viridis(option = "inferno") +
   labs(x = "Year",
        y = "Number of Sequels", 
-       color = "Years between\nsequel and original",
+       color = "Average Years between\nsequel and original\nper year",
        title = "Number of Movie Sequels Over Time") +
   scale_x_continuous(breaks = seq(1950, 2017, 10)) +
   scale_y_continuous(breaks = seq(1000, 8000, 2000)) +
   theme(panel.grid = element_blank())
 ```
+This graph shows that there is a strong positive correlation between time and the number of sequels made. Additionally, there is also a positive correlation between time and the spacing between a sequel and its original.
+
+**Interpretation and Further Research**
+
+Although this graph shows that there is a correlation between time and the number of sequels made, this does not necessarily mean that for a given movie, a sequel is more likely today than it was in 1950. As there are many more movies in total that have been today as opposed to 1950, there is a greater opportunity for sequels due to the increased number of movies on which to be based. It would be useful to evaluate the relationship between time and the percentage of movies made in that year that were remade in order to control for total number of movies. 
+
+**GitHub Link**
+https://github.com/sellinwood8/sds192_mp3
