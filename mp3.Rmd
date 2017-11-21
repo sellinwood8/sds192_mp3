@@ -9,6 +9,7 @@ output: html_document
 library(tidyverse)
 library(mdsr)
 library(RMySQL)
+library(viridis)
 db <- dbConnect_scidb(dbname = "imdb")
 ```
 
@@ -52,6 +53,7 @@ full_tbl %>%
   summarize("count" = n(),
             "difference" = mean(sequel_year - original_year)) %>%
 ggplot(aes(x = sequel_year, y = count)) +
-  geom_point() +
-  geom_smooth() 
+  geom_point(aes(color = difference)) +
+  geom_smooth(se = FALSE) +
+  scale_color_viridis(option = "inferno")
 ```
