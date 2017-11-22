@@ -1,7 +1,7 @@
 ---
 title: "Mini Project 3"
 author: "Sam Ellinwood, Haley McAtee, Sam Schneider"
-date: "11/8/2017"
+date: "11/21/2017"
 output: html_document
 ---
 
@@ -10,7 +10,7 @@ output: html_document
 We want to determine if the movie industry has recently developed a higher propensity for generating sequels, remakes, and reboots. To evaluate this question, we plot the total number of these movies in a given year over time. Additionally, we examine how the number of years between a sequel and its original has changed over time. 
 
 
-```{r, message = FALSE}
+```{r, message = FALSE, warning = FALSE}
 #Load packages
 library(tidyverse)
 library(mdsr)
